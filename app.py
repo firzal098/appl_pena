@@ -288,7 +288,7 @@ if "logged_in" not in st.session_state:
 if "user_email" not in st.session_state:
     st.session_state.user_email = ""
 
-# --- AUTENTIKASI: LOGIN / REGISTER (SKPL-FR08/NFR08) ---
+# --- AUTENTIKASI: LOGIN / REGISTER ---
 def render_login_page():
     st.markdown("<div style='height: 40px;'></div>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
@@ -368,7 +368,7 @@ else:
     user_cats = [c["name"] for c in db["categories"] if c["email"] == email]
     cat_colors = {c["name"]: c["color"] for c in db["categories"] if c["email"] == email}
     
-    # --- SIMULASI PENGINGAT / REMINDER (SKPL-FR04) ---
+    # --- SIMULASI PENGINGAT / REMINDER ---
     today_str = datetime.date.today().strftime("%Y-%m-%d")
     user_today_tasks = [t for t in db["activities"] if t["email"] == email and t["date"] == today_str]
     pending_tasks = [t for t in user_today_tasks if t["status"] == "pending"]
@@ -396,7 +396,7 @@ else:
     st.sidebar.markdown("""
     <div style='text-align: center; margin-top: 80px; font-size: 0.75rem; color: #8f9bb3;'>
         Pena Prototype v1.0<br>
-        Tugas Kelompok APPL (Tahap 5)
+        Tugas Kelompok APPL
     </div>
     """, unsafe_allow_html=True)
 
@@ -404,7 +404,7 @@ else:
     if menu == "🏠 Beranda (Dashboard)":
         st.title("🏠 Dashboard Utama - Pena")
         
-        # Simulasi Push Notifikasi Lokal (SKPL-FR04)
+        # Simulasi Push Notifikasi Lokal
         if user["reminders_enabled"] and len(pending_tasks) > 0:
             st.markdown(f"""
             <div class="alert-banner">
@@ -459,7 +459,7 @@ else:
             </div>
             """, unsafe_allow_html=True)
             
-        # Milestone Lencana yang Terbuka (SKPL-FR08)
+        # Milestone Lencana yang Terbuka
         st.subheader("🏅 Lencana Milestone Kamu")
         user_badges_names = [b["badge"] for b in db["user_badges"] if b["email"] == email]
         
@@ -494,7 +494,7 @@ else:
                     """, unsafe_allow_html=True)
                     st.button("Terkunci", key=f"share_locked_{idx}", disabled=True)
 
-    # --- 2. TRACKER TAB (SKPL-FR01/FR07) ---
+    # --- 2. TRACKER TAB ---
     elif menu == "📝 Tracker Harian":
         st.title("📝 Pelacakan Aktivitas Harian")
         
@@ -614,7 +614,7 @@ else:
                     st.success(f"Kategori '{new_cat_name}' berhasil ditambahkan!")
                     st.rerun()
 
-    # --- 3. KEUANGAN TAB (SKPL-FR09/FR11) ---
+    # --- 3. KEUANGAN TAB ---
     elif menu == "💰 Manajemen Keuangan":
         st.title("💰 Kontrol Anggaran & Keuangan")
         
@@ -718,7 +718,7 @@ else:
                         
                     st.markdown("<hr style='margin: 8px 0; border-color: #1e2230;' />", unsafe_allow_html=True)
 
-    # --- 4. GRAPH & LAPORAN (SKPL-FR02/FR12) ---
+    # --- 4. GRAPH & LAPORAN ---
     elif menu == "📊 Grafik & Laporan":
         st.title("📊 Laporan Analitik & Grafik")
         
@@ -726,7 +726,7 @@ else:
         
         with tab_lap_act:
             st.subheader("Tren Konsistensi Harian (7 Hari Terakhir)")
-            # Konstruksi data mockup konsistensi (SKPL-FR02)
+            # Konstruksi data mockup konsistensi
             dates = [(datetime.date.today() - datetime.timedelta(days=i)).strftime("%Y-%m-%d") for i in range(6, -1, -1)]
             completion_rates = []
             
@@ -793,7 +793,7 @@ else:
                         st.markdown(f"<h5 style='text-align: right; margin:0;'>Rp {row['amount']:,.0f}</h5>", unsafe_allow_html=True)
                     st.markdown("<hr style='margin: 5px 0; border-color: #1e2230;' />", unsafe_allow_html=True)
 
-    # --- 5. PAPAN PERINGKAT (LEADERBOARD & GALLERY) (SKPL-FR06) ---
+    # --- 5. PAPAN PERINGKAT (LEADERBOARD & GALLERY) ---
     elif menu == "🏆 Leaderboard Global":
         st.title("🏆 Papan Peringkat & Milestone Global")
         
@@ -892,7 +892,7 @@ else:
             new_name = st.text_input("Nama Lengkap", user["name"])
             new_limit = st.number_input("Limit Anggaran Bulanan (Rp)", min_value=10000.0, value=float(user["budget_limit"]), step=50000.0)
             
-            st.subheader("Konfigurasi Notifikasi Reminder (SKPL-FR04)")
+            st.subheader("Konfigurasi Notifikasi Reminder")
             is_reminder_enabled = st.toggle("Aktifkan Pengingat Harian (Reminder)", user["reminders_enabled"])
             new_reminder_time = st.text_input("Waktu Pengingat (WIB)", user["reminder_time"])
             
